@@ -1,3 +1,3 @@
-Welcome to R-DAVIS! 
-
-This is the 'README' file for your class repository -- a place where you can share notes for your project. Typically when you start a new project this can be a good place to provide an overview of what's happening in this R prohect. 
+Rowan Peterson
+they/them or he/him pronouns (either is fine)
+Research interests: grassland plant community ecology and grassland restoration; also fire and grazing as management tools on California grasslands and shrublands
