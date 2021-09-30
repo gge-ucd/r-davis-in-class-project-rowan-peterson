@@ -19,3 +19,14 @@ char_logical <- c("a", "b", "c", TRUE)
 class(char_logical) #character
 tricky <- c(1, 2, 3, "4")
 class(tricky) #character
+num_logical <- c(1, 2, 3, TRUE) #coerced to numeric
+char_logical <- c("a", "b", "c", TRUE) #coerced to character
+combined_logical <- c(num_logical, char_logical)  #all coerced to character
+combined_logical
+
+animals <- c("mouse", "rat", "dog", "cat")
+animals[2]
+animals[c(2,3)]
+animals[c(1, 2, 3, 2, 1, 4)]
+
+weight_g <- c(21, 34, 39, 54, 55)
