@@ -30,3 +30,54 @@ animals[c(2,3)]
 animals[c(1, 2, 3, 2, 1, 4)]
 
 weight_g <- c(21, 34, 39, 54, 55)
+weight_g[c(TRUE, FALSE, TRUE, TRUE, FALSE)] # could be read as "give me the first value, not the second value, etc."
+weight_g[weight_g > 50]
+weight_g[weight_g < 30 | weight_g > 50]
+
+animals <- c("mouse", "rat", "dog", "cat")
+animals[animals == "cat" | animals == "rat"] # returns both rat and cat
+animals %in% c("rat", "cat", "dog", "duck", "goat")
+animals[animals %in% c("rat", "cat", "dog", "duck", "goat")]
+
+"four" > "five" ##why does this return TRUE?
+class("four")
+class("five")
+as.numeric("five")
+
+TRUE > "five"
+
+
+a <-1 #object
+letters #vector
+vec <- c(3, 9,27)
+vec
+(vec <- c(3,9,27)) #make and print at once
+vec[2]
+vec[c(2,2)]
+vec[c(3,2,1)]
+vec <- c(vec, 81)
+vec
+vec.char <- c("I", "love", "Sleater", "Kinney")
+vec.char
+str(vec.char)
+class(vec)
+?data.frame
+my_string <- c('dog', "walrus", "person", "cat")
+data.frame(my_string)
+data.frame(my_string)
+df <- data.frame(animal = my_string, count = 1:4)
+
+#lists: big catchall thing
+?list
+test_list <- list('something or other')
+test_list
+test_list[1]
+test_list[[1]]
+test_list <- c(test_list, 28)
+test_list
+test_list[[1]][2] <- "word"
+test_list
+test_list[[3]] <- df
+test_list
+str(test_list)
+test_list[[3]][1]
