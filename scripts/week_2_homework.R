@@ -16,7 +16,7 @@ plus10 <- times3 + 10
 plus10
 
 ?seq
-odds <- seq(from = 1, to = 23, by = 2)
+odds <- seq(from = 1, to = 23, by = 2) #better would be seq(from = 1, to = length (plus10), by = 2) #this is called soft coding
 odds
 
 final <- plus10[odds]
