@@ -1,0 +1,1 @@
+##challenge myself to write a quartiles function to soft code the iris stuff

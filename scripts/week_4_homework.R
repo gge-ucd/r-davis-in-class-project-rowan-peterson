@@ -1,17 +1,21 @@
+library(tidyverse)
 surveys <- read_csv('data/portal_data_joined.csv')
 
 #Problem 2
 
 surveys %>% 
-  filter(weight > 30 & weight < 60)
+  filter(weight > 30 & weight < 60) %>% head()
+
+##or
+filter(surveys, weight > 30 & weight < 60) %>% head() #default number rows in head is 6
 
 
 #Problem 3
 biggest_critters <- surveys %>% 
-  filter(!is.na(weight)) %>% 
+  filter(!is.na(weight) & !is.na(sex)) %>% 
   group_by(species_id, sex) %>% 
   summarise(max_weight = max(weight))
-
+biggest_critters
 biggest_critters %>%    ##sorted in ascending order of max_weight
   arrange(max_weight)
 
@@ -28,8 +32,13 @@ surveys %>%
 surveys %>% 
   filter(is.na(weight)) %>%    
   group_by(plot_id) %>% 
-  tally() %>% 
+  tally() %>%  ##could also use count or n--tally doesn't let you do anything with the data frame
   arrange(desc(n))
+##or
+surveys %>% 
+  filter(is.na(weight)) %>%    
+  group_by(plot_id) %>%
+  summarize(count = n(), mean= mean(hindfoot_length, na.rm = TRUE))
 ##this found the plot ids with the most NA values: plots 13-15, 20, 12, and 17 all had a lot
 surveys %>% 
   filter(is.na(weight)) %>%    
