@@ -1,17 +1,39 @@
-##challenge myself to write a quartiles function to soft code the iris stuff
 
 library(tidyverse)
 surveys <- read_csv('data/portal_data_joined.csv')
 
 ##Problem 1
 str(surveys)
-#manipulate surveys to create a new dataframe called surveys_wide with a row for genus and a column named after every plot type, with each of these columns containing the mean hindfoot length of animals in that plot type and genus. So every row has a genus and then a mean hindfoot length value for every plot type. The dataframe should be sorted by values in the Control plot type column. This question will involve quite a few of the functions you’ve used so far, and it may be useful to sketch out the steps to get to the final result.
 #step one: create a new data frame with just the three columns I'm interested in with the mean hindfoot length by genus
-surveys <- surveys %>% 
+surveys2 <- surveys %>% 
   filter(!is.na(hindfoot_length)) %>% 
   group_by(plot_type, genus) %>% 
   summarise(mean_hindfoot_length = mean(hindfoot_length))
-head(surveys)  ##success!
+head(surveys2)  ##success!
 
-surveys_wide <- pivot_wider(surveys, names_from = "plot_type", values_from = "mean_hindfoot_length")
+surveys_wide <- pivot_wider(surveys2, names_from = "plot_type", values_from = "mean_hindfoot_length")
 surveys_wide   ##success!
+
+##Problem 2
+summary(surveys$weight)
+##using ifelse
+surveys3 <- surveys %>% 
+   mutate(weight_cat = ifelse(weight <= 20, "small", 
+                              ifelse(weight >= 48, "large", "medium")))
+  
+view(surveys3)  ##if weight is NA, the ifelse function automatically makes weight_cat NA
+
+##using case_when
+surveys4 <- surveys %>% 
+  mutate(weight_cat = case_when(weight <= 20 ~ "small",
+                                weight > 20 & weight < 48 ~ "medium",
+                                weight >= 48 ~ "large"))
+view(surveys4) ##case_when also automatically made weight_cat NA
+
+surveys5 <- surveys %>% 
+  filter(!is.na(weight)) %>% 
+  mutate(weight_cat = case_when(weight <= 20 ~ "small",
+                                weight > 20 & weight < 48 ~ "medium",
+                                weight >= 48 ~ "large"))
+view(surveys5)
+##write a quartiles function to soft code if time
