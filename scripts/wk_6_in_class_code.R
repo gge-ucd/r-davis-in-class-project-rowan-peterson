@@ -125,3 +125,33 @@ surveys %>%
 
 ##can do the conversion to factor included in the above one-step using mutate
   
+yearly_count <- surveys %>% 
+  count(year, species_id)
+yearly_count
+ggplot(data = yearly_count, mapping = aes(x = year, y = n, group = species_id)) +
+  geom_line(aes(color = species_id))
+
+##or
+ggplot(data = yearly_count, mapping = aes(x = year, y = n, color = species_id)) +
+  geom_line()
+
+##faceting
+ggplot(data = yearly_count, mapping = aes(x = year, y = n)) +
+  geom_line() +
+  facet_wrap(~ species_id)
+
+##challenge
+mystery <- read_csv("https://raw.githubusercontent.com/gge-ucd/R-DAVIS/master/data/mysteryData.csv")
+spec(mystery)
+head(mystery)
+ggplot(data = mystery, mapping = aes(x = x, y = y)) +
+  geom_point(alpha = 0.01, size = 0.1) +
+  facet_wrap(~ Group) +
+  coord_equal()
+##they're cute little animals!
+
+##challenge
+#Let’s make one final change to our facet wrapped plot of our yearly count data. What if we wanted to split the counts of species up by sex where the lines for each sex are different colors? Make sure you have a nice theme on your graph too!
+  
+ # Hint Make a new dataframe using the count function we learned earlier!
+
