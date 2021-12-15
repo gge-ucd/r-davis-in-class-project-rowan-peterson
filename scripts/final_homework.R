@@ -24,7 +24,7 @@ alldata %>%
   ggplot(mapping = aes(x = precip, y = dep_delay)) +
   geom_point(alpha = 0.2) +
   geom_smooth(method = lm) ##adds a trend line, linear model
-  
+
 ggsave(filename = "precipvsdelay.pdf", path = "plots") 
 
 ##Part 2: Create a figure that has date on the x axis and each day’s mean departure delay on the y axis. Plot only months September through December. Somehow distinguish between airline carriers (the method is up to you). Again, save your final product into the “plot” folder.
@@ -72,7 +72,7 @@ alldata2 <- alldata2 %>%
   mutate(mean_temp = mean(temp)) %>% 
   ungroup()
 View(alldata2)  
-  
+
 ##select just relevant columns
 ymd_origin_mean_temp <- alldata2 %>% 
   group_by(origin.x, date_ymd) %>% 
@@ -82,31 +82,18 @@ wide_origin_meantemp <- pivot_wider(ymd_origin_mean_temp, names_from = date_ymd,
 write_csv(wide_origin_meantemp, file = "data/wide_origin_meantemp.csv")
 
 ##Part 4: minute/hour conversion function
-x <- c(1,2)
-v <- vector(length = length(x))
-v
-vector_making_fxn <- function(x){
-  v <- rep(NA, length(x))
-  print(v)
-}
-
-v8 <- c(2,4,6,8)
-vector_making_fxn(v8)
 m_h_conv <- function(x, start_with_minute = TRUE) {
   v <- rep(NA, length(x))
   if(start_with_minute == TRUE) {
-   v <- x/60}
-    else {
+    v <- x/60}
+  else {
     v <- x*60
-    }
+  }
   v}
-
-m_h_conv(weight_g, FALSE)
-
 
 save(m_h_conv, file = "scripts/customfunctions.R")
 
-##boxplot of departure delays by carrier, in hours
+##boxplot of departure delays by carrier, in hours, add mean and median also (for improving the graph)
 
 data_hours <- alldata %>% 
   filter(!is.na(dep_delay) & !is.na(carrier)) %>% 
@@ -114,36 +101,34 @@ data_hours <- alldata %>%
   group_by(carrier) %>% 
   mutate(mean_delay = mean(hr_delay)) %>% 
   mutate(med_delay = median(hr_delay))
-summary(data_hours$med_delay)
-
 
 ##Part 5: improving a graph
 ##starting with:
 ggplot(data_hours, mapping = aes(x = hr_delay, y = carrier, fill = carrier)) +
   geom_boxplot()
-##1: change scale of y axis--this includes all but 33 outliers and gives a much better sense of differences in data distribution between carriers
+##1: change scale of y axis
+##changing the scale only removes <.4% of the data, can still see the trends
 
 ggplot(data_hours, mapping = aes(x = carrier, y = hr_delay, fill = carrier)) +
   geom_boxplot() +
   ylim(-0.5, 6)
-##reorder by median delay of each carrier
+##2: reorder by median delay of each carrier
 ggplot(data_hours, mapping = aes(x = reorder(carrier, med_delay), y = hr_delay, fill = carrier)) +
   geom_boxplot() +
   ylim(-0.5, 6)
-##remove lines
+##3. remove lines
 ggplot(data_hours, mapping = aes(x = reorder(carrier, med_delay), y = hr_delay, fill = carrier)) +
   geom_boxplot() +
   ylim(-0.5, 4) +
   theme_classic()
-##changing the scale only removes <.4% of the data, can still see the trends
 
-##adjust transparency
+##4. adjust transparency
 ggplot(data_hours, mapping = aes(x = reorder(carrier, med_delay), y = hr_delay, fill = carrier)) +
   geom_boxplot(alpha = 0.25) +
   ylim(-0.5, 4) +
   theme_classic()
 
-##change axis labels
+##5. change axis labels
 ggplot(data_hours, mapping = aes(x = reorder(carrier, med_delay), y = hr_delay, fill = carrier)) +
   geom_boxplot(alpha = 0.25) +
   ylim(-0.5, 4) +
@@ -152,4 +137,4 @@ ggplot(data_hours, mapping = aes(x = reorder(carrier, med_delay), y = hr_delay, 
         y = "Delay (hours)",
         title = "Delay by Carrier",
         color = "Carrier")
-  
+
